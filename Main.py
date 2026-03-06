@@ -36,14 +36,15 @@ class JuegoMemoria(GridLayout):
         self.modo_multijugador = False #variable para saber si el juego es multijugador
 
 
+        # -----------------------------
+        # MEJORAS VISUALES
+        # -----------------------------
 
-                                    #SECCION DE DISEÑO 
-
-        # titulo del juego 
+        # titulo del juego
         self.titulo = Label(text="JUEGO DE MEMORIA", size_hint=(1,0.1))
         self.add_widget(self.titulo)
 
-        # muestra timpo de pantalla 
+        # label que muestra el tiempo en pantalla
         self.label_tiempo = Label(text="Tiempo: 0", size_hint=(1,0.1))
         self.add_widget(self.label_tiempo)
 
@@ -326,4 +327,4 @@ class JuegoApp(App):
 if __name__ == "__main__":
     JuegoApp().run()
 
-    
+    ##comentario de prueba
