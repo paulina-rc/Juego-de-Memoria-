@@ -36,39 +36,36 @@ class JuegoMemoria(GridLayout):
         self.modo_multijugador = False #variable para saber si el juego es multijugador
 
 
-        # -----------------------------
-        # MEJORAS VISUALES
-        # -----------------------------
+                            #DISENO VISUAL  
 
         # titulo del juego
         self.titulo = Label(text="JUEGO DE MEMORIA", size_hint=(1,0.1))
         self.add_widget(self.titulo)
 
-        # label que muestra el tiempo en pantalla
+        #muestra el tiempo en pantalla
         self.label_tiempo = Label(text="Tiempo: 0", size_hint=(1,0.1))
         self.add_widget(self.label_tiempo)
 
-        # label que muestra movimientos
+        #muestra de movimientos
         self.label_movimientos = Label(text="Movimientos: 0", size_hint=(1,0.1))
         self.add_widget(self.label_movimientos)
 
-        # label que indica turno del jugador
+        #indicador de turno del jugador
         self.label_turno = Label(text="Turno: ", size_hint=(1,0.1))
         self.add_widget(self.label_turno)
 
-        # label que muestra puntos
+        #contador de puntos
         self.label_puntos = Label(text="Puntos", size_hint=(1,0.1))
         self.add_widget(self.label_puntos)
 
-        # boton para ver historial de tiempos
+        #ver historial de tiempos
         self.boton_historial = Button(text="Ver tiempos guardados", size_hint=(1,0.1))
         self.boton_historial.bind(on_press=self.ver_tiempos)
         self.add_widget(self.boton_historial)
 
-        # iniciar temporizador
-        Clock.schedule_interval(self.actualizar_tiempo, 1)
+        Clock.schedule_interval(self.actualizar_tiempo, 1) #iniciar temporizador 
 
-        # seccion de imagenes de los botones 
+        # SECCION DE IMAGENES DE CARTAS
         self.imagenes = [ #arreglo con imagenes 
             "img/Beso.jpg",
             "img/Brillo.png",
@@ -84,7 +81,7 @@ class JuegoMemoria(GridLayout):
 
         for imagen in self.imagenes: #recorre todas las imagenes de la lista 
 
-            boton = Button( #crador del boton 
+            boton = Button( #creador del boton 
                 background_normal="img/Pregunta.jpg", # imagen cuando no se preciona 
                 background_down="img/Pregunta.jpg" # imagen cuando se preciona 
             )
@@ -96,99 +93,97 @@ class JuegoMemoria(GridLayout):
             self.add_widget(boton) #agregar carta al tablero 
 
 
-        # --------------------------------
-        # ELEGIR MODO DE JUEGO
-        # --------------------------------
-
-        Clock.schedule_once(self.elegir_modo,1)
+        Clock.schedule_once(self.elegir_modo,1) #elegir modo de juego 
 
 
     # ventana para elegir modo de juego (solitario o multijugador)
-    def elegir_modo(self, dt):
+    def elegir_modo(self, dt): #función para elegir modo de juego 
 
-        layout = GridLayout(cols=1)
+        layout = GridLayout(cols=1)  #crear el layout (contenedor para poner botones)
 
-        boton_solo = Button(text="Modo Solitario")
-        boton_multi = Button(text="Modo Multijugador")
+        boton_solo = Button(text="Modo Solitario") #crear boton para la opcion de modo solitario 
+        boton_multi = Button(text="Modo Multijugador") #crear boton para la opcio de multijugador 
 
-        boton_solo.bind(on_press=self.modo_solitario)
-        boton_multi.bind(on_press=self.modo_multijugador_func)
+        boton_solo.bind(on_press=self.modo_solitario) #conexion de botones con funciones 
+        boton_multi.bind(on_press=self.modo_multijugador_func) #conexion de botones con funciones
 
-        layout.add_widget(boton_solo)
-        layout.add_widget(boton_multi)
+        layout.add_widget(boton_solo) #agregado de botones al layaout
+        layout.add_widget(boton_multi) #agregar botones al layaout 
 
-        self.popup_modo = Popup(
-            title="Selecciona modo de juego",
-            content=layout,
-            size_hint=(0.6,0.6)
-        )
+        self.popup_modo = Popup( #creacion de ventana emerguente 
+            title="Selecciona modo de juego", #titulo del popup
+            content=layout, #contenido del popup (popput es algo emerguente que aparece encime de toda la pagina o apliacion )
+            size_hint=(0.6,0.6) #tamaño del popup
+        )                       #0.6 = 60% del ancho de la pantalla
+                                #0.6 = 60% de la altura de la pantalla
 
-        self.popup_modo.open()
+        self.popup_modo.open() #mostrar la ventana 
 
 
     # modo solitario
-    def modo_solitario(self, boton):
+    def modo_solitario(self, boton): #self, hace referencia al objeto del juego 
+                                     #boton representa el boton precionado 
 
-        self.modo_multijugador = False
+        self.modo_multijugador = False #se cambia la variable de modo_multijugador a "false"
 
-        self.label_turno.text = "Modo: Solitario"
-        self.label_puntos.text = ""
+        self.label_turno.text = "Modo: Solitario" #se cambia el texto para mostar que se esta jugando en modo solitario 
+        self.label_puntos.text = "" #se borro el texto de label de puntos 
 
-        self.popup_modo.dismiss()
+        self.popup_modo.dismiss() #se cierra la ventana emeguente donde el ususario elije el modo de juego 
 
 
     # modo multijugador
-    def modo_multijugador_func(self, boton):
+    def modo_multijugador_func(self, boton): #llamado de funcion 
 
-        self.modo_multijugador = True
+        self.modo_multijugador = True #indica el modo de juego 
 
-        self.popup_modo.dismiss()
+        self.popup_modo.dismiss() #se cierra la ventana emerguente de pregunta 
 
-        self.pedir_nombres(0)
+        self.pedir_nombres(0) #ejecuta la funcion que pide los nombres a los jugadores 
 
 
-    # ventana para ingresar nombres de jugadores
+   # ventana para ingresar nombres de jugadores
     def pedir_nombres(self, dt):
 
-        layout = GridLayout(cols=1)
+        layout = GridLayout(cols=1) #crear layout, es praticamente un contenedor de elementos con filas y columnas 
 
-        self.input_j1 = TextInput(hint_text="Nombre Jugador 1")
+        self.input_j1 = TextInput(hint_text="Nombre Jugador 1") #ingredar nombre de jugadores 
         self.input_j2 = TextInput(hint_text="Nombre Jugador 2")
 
-        boton = Button(text="Comenzar")
-        boton.bind(on_press=self.iniciar_juego)
+        boton = Button(text="Comenzar") #crear boton para comenzar el juego 
+        boton.bind(on_press=self.iniciar_juego) #conexion del boton con la funcion 
 
-        layout.add_widget(self.input_j1)
-        layout.add_widget(self.input_j2)
-        layout.add_widget(boton)
+        layout.add_widget(self.input_j1) #crea un campo para jugador 1
+        layout.add_widget(self.input_j2) #campo para jugador 2
+        layout.add_widget(boton) #btn de comenzar 
 
-        self.popup = Popup(
-            title="Ingrese nombres de jugadores",
-            content=layout,
-            size_hint=(0.7,0.7)
+        self.popup = Popup( #crear ventana emerguente 
+            title="Ingrese nombres de jugadores", #tutulo 
+            content=layout, #indica que el contenido de la ventana sera el layaout
+            size_hint=(0.7,0.7) #definicon de tamano real (0.7 significa 70% del ancho y 70% de la altura de la pantalla.)
         )
 
-        self.popup.open()
+        self.popup.open() #muestra al ventana, sin esto el popup no apreceria 
 
 
-    def iniciar_juego(self, boton): #guardar nombres de jugadores 
+    def iniciar_juego(self, boton): #se define la funcion 
 
         self.jugador1 = self.input_j1.text #input para nombres de jugadores 
         self.jugador2 = self.input_j2.text #input para nombres de jugadores 
 
-        if self.jugador1 == "":
-            self.jugador1 = "Jugador 1"
+        if self.jugador1 == "": #verifica si el campo del jugador esta vacio 
+            self.jugador1 = "Jugador 1" #si esta vacio le coloca jugador 1
 
         if self.jugador2 == "":
             self.jugador2 = "Jugador 2"
 
-        # mostrar turno inicial
+        # indica que el primer jugador es el numero 1
         self.label_turno.text = "Turno: " + self.jugador1
 
-        # mostrar puntos iniciales
+        #muestra el marcador inical de cada jugador 
         self.label_puntos.text = self.jugador1 + ": 0 | " + self.jugador2 + ": 0"
 
-        self.popup.dismiss()
+        self.popup.dismiss() #cierre de ventana emeguente de nombres 
 
 
     def actualizar_tiempo(self, dt):
@@ -198,10 +193,10 @@ class JuegoMemoria(GridLayout):
         self.label_tiempo.text = "Tiempo: " + str(self.tiempo)
 
 
-    def cambiar_imagen(self, boton):
+    def cambiar_imagen(self, boton): #cada que el jugador preciona un boton/imagen se ejecuta la funcion 
 
         # evitar que se presione la misma carta dos veces
-        if boton in self.cartas_seleccionadas:
+        if boton in self.cartas_seleccionadas: #revisa si la carta ya fue precionada 
             return
 
         # mostrar imagen real
@@ -215,19 +210,19 @@ class JuegoMemoria(GridLayout):
         if len(self.cartas_seleccionadas) == 2:
 
             # sumar movimiento (destapar dos cartas cuenta como 1)
-            self.movimientos += 1
+            self.movimientos += 1 #sumatoria de movimientos 
             self.label_movimientos.text = "Movimientos: " + str(self.movimientos)
 
             # esperar 1 segundo antes de comparar
             Clock.schedule_once(self.comparar_cartas, 1)
 
 
-    def comparar_cartas(self, dt):
+    def comparar_cartas(self, dt): #dt es un parámetro que usa Clock cuando la función se ejecuta después de un tiempo
 
-        carta1 = self.cartas_seleccionadas[0]
-        carta2 = self.cartas_seleccionadas[1]
+        carta1 = self.cartas_seleccionadas[0] #carta 1 = a primera carta seleccionada 
+        carta2 = self.cartas_seleccionadas[1]# carta 2 = a segunda carta seleccionada
 
-        if carta1.imagen_real != carta2.imagen_real:
+        if carta1.imagen_real != carta2.imagen_real: #Si son diferentes, significa que no forman un par
 
             # si no coinciden se vuelven a ocultar
             carta1.background_normal = "img/Pregunta.jpg"
@@ -292,33 +287,37 @@ class JuegoMemoria(GridLayout):
             popup.open()
 
 
-    def guardar_tiempo(self):
+    def guardar_tiempo(self): 
 
-        archivo = open("tiempos.txt", "a")
-        fecha = datetime.now().strftime("%d/%m/%Y %H:%M")
-        texto = "Fecha: " + fecha + " Tiempo: " + str(self.tiempo) + " segundos\n"
-        archivo.write(texto)
-        archivo.close()
+        archivo = open("tiempos.txt", "a") #abrimos el archivo (tiempos) la "a" nos permite agregar, esto permite agregar sin borrrar los anteriores 
+        fecha = datetime.now().strftime("%d/%m/%Y %H:%M") #se obtiene la fecha y hora actual del sistema
+        texto = "Fecha: " + fecha + " Tiempo: " + str(self.tiempo) + " segundos\n" # se crea el texto que se guardara en el archivo 
+        archivo.write(texto) #se escribe texto dentro de tiempos.txt
+        archivo.close() #ciere de archivo luego de guardar la informacion 
 
 
     def ver_tiempos(self, boton):
 
-        try:
-            archivo = open("tiempos.txt", "r")
-            contenido = archivo.read()
-            archivo.close()
+        try: #se usa para ejecutar un bloque de codigo (try:)
+            archivo = open("tiempos.txt", "r") #Esto permite leer los tiempos guardados ("r" significa leer)
+            contenido = archivo.read() #abrir el archivo para leerlo 
+            archivo.close() #cierre de el luego de leerlo 
         except:
             contenido = "No hay tiempos guardados"
 
-        popup = Popup(
-            title="Tiempos guardados",
-            content=Label(text=contenido),
-            size_hint=(0.8,0.8)
+        popup = Popup( #ventna emeguente para ver informacion de tiempos 
+            title="Tiempos guardados", #titulos
+            content=Label(text=contenido), #el contenido de la ventana será un Label que mostrará el texto almacenado en contenido
+            size_hint=(0.8,0.8) #0.8 significa 80% del ancho y alto de la pantalla.
         )
 
-        popup.open()
+        popup.open() #para poder abrir ventana 
 
 
+
+
+
+                        #LINEAS OBLIGATORIAS DE KIVY 
 class JuegoApp(App):
     def build(self):
         return JuegoMemoria()
@@ -327,4 +326,4 @@ class JuegoApp(App):
 if __name__ == "__main__":
     JuegoApp().run()
 
-    ##comentario de prueba
+    
