@@ -7,15 +7,26 @@ from kivy.clock import Clock #libreria para temporizadores
 from kivy.uix.textinput import TextInput #para ingresar nombre de jugadores
 from datetime import datetime #para guardar fecha
 import random
+from kivy.uix.boxlayout import BoxLayout
+from kivy.graphics import Color, RoundedRectangle
+from kivy.core.window import Window
+Window.clearcolor = (0.12, 0.12, 0.15, 1)
 
 
-class JuegoMemoria(GridLayout):
+class JuegoMemoria(BoxLayout):
 
     def __init__(self, **kwargs): #esta función se ejecuta automáticamente cuando se crea el objeto
                                     #ejemplo: tablero = juego de memoria 
         super().__init__(**kwargs) #"Kwargs" son parametros que se ponen por default
+        
+        self.orientation = "vertical"
 
-        self.cols = 4 #asigna 4 columnas al tablero 
+        # panel superior del juego
+        panel_superior = GridLayout(cols=6, size_hint=(1,0.15))
+        self.add_widget(panel_superior)
+        # tablero de cartas
+        self.tablero = GridLayout(cols=4, spacing=15, padding=20, size_hint=(1,0.85))
+        self.add_widget(self.tablero)
         
         self.cartas_seleccionadas = [] #lista donde se guardan todas las cartas abiertas 
 
@@ -38,30 +49,30 @@ class JuegoMemoria(GridLayout):
 
                             #DISENO VISUAL  
 
-        # titulo del juego
+       # titulo del juego
         self.titulo = Label(text="JUEGO DE MEMORIA", size_hint=(1,0.1))
-        self.add_widget(self.titulo)
+        panel_superior.add_widget(self.titulo)
 
         #muestra el tiempo en pantalla
         self.label_tiempo = Label(text="Tiempo: 0", size_hint=(1,0.1))
-        self.add_widget(self.label_tiempo)
+        panel_superior.add_widget(self.label_tiempo)
 
         #muestra de movimientos
         self.label_movimientos = Label(text="Movimientos: 0", size_hint=(1,0.1))
-        self.add_widget(self.label_movimientos)
+        panel_superior.add_widget(self.label_movimientos)
 
         #indicador de turno del jugador
         self.label_turno = Label(text="Turno: ", size_hint=(1,0.1))
-        self.add_widget(self.label_turno)
+        panel_superior.add_widget(self.label_turno)
 
         #contador de puntos
         self.label_puntos = Label(text="Puntos", size_hint=(1,0.1))
-        self.add_widget(self.label_puntos)
+        panel_superior.add_widget(self.label_puntos)
 
         #ver historial de tiempos
         self.boton_historial = Button(text="Ver tiempos guardados", size_hint=(1,0.1))
         self.boton_historial.bind(on_press=self.ver_tiempos)
-        self.add_widget(self.boton_historial)
+        panel_superior.add_widget(self.boton_historial)
 
         Clock.schedule_interval(self.actualizar_tiempo, 1) #iniciar temporizador 
 
@@ -79,19 +90,21 @@ class JuegoMemoria(GridLayout):
 
         random.shuffle(self.imagenes) #rando.shuffle organiza las cartas random, las remuerve 
 
-        for imagen in self.imagenes: #recorre todas las imagenes de la lista 
+        for imagen in self.imagenes:
 
-            boton = Button( #creador del boton 
-                background_normal="img/Pregunta.jpg", # imagen cuando no se preciona 
-                background_down="img/Pregunta.jpg" # imagen cuando se preciona 
+            boton = Button(
+                background_normal="",
+                background_down="",
+                size_hint=(1,1)
             )
-
+            
             # super IMPORTANTE guardamos el valor del boton en este caso la imagen
             boton.imagen_real = imagen
 
-            boton.bind(on_press=self.cambiar_imagen) #cuando se precione se va a ejecutar la funcion que se especifica
-            self.add_widget(boton) #agregar carta al tablero 
+            boton.bind(on_press=self.cambiar_imagen)
 
+            # agregar carta al tablero
+            self.tablero.add_widget(boton)
 
         Clock.schedule_once(self.elegir_modo,1) #elegir modo de juego 
 
