@@ -25,7 +25,7 @@ class JuegoMemoria(BoxLayout):
         panel_superior = GridLayout(cols=6, size_hint=(1,0.15))
         self.add_widget(panel_superior)
         # tablero de cartas
-        self.tablero = GridLayout(cols=4, spacing=15, padding=20, size_hint=(1,0.85))
+        self.tablero = GridLayout(cols=4, spacing=15, padding=20, size_hint=(1,0.85)) 
         self.add_widget(self.tablero)
         
         self.cartas_seleccionadas = [] #lista donde se guardan todas las cartas abiertas 
@@ -97,6 +97,15 @@ class JuegoMemoria(BoxLayout):
                 background_down="",
                 size_hint=(1,1)
             )
+            with boton.canvas.before:
+                Color(1,1,1,1)
+                boton.fondo = RoundedRectangle(
+                    pos=boton.pos,
+                    size=boton.size,
+                    radius=[20]
+                )
+            
+            boton.bind(pos=self.actualizar_fondo, size=self.actualizar_fondo)
             
             # super IMPORTANTE guardamos el valor del boton en este caso la imagen
             boton.imagen_real = imagen
@@ -132,6 +141,9 @@ class JuegoMemoria(BoxLayout):
 
         self.popup_modo.open() #mostrar la ventana 
 
+    def actualizar_fondo(self, instance, value):
+        instance.fondo.pos = instance.pos
+        instance.fondo.size = instance.size
 
     # modo solitario
     def modo_solitario(self, boton): #self, hace referencia al objeto del juego 
