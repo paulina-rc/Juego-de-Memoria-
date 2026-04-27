@@ -1,4 +1,4 @@
-#Memory Game — Kivy
+# Memory Game — Kivy
 
 An interactive **Memory Card Game** built with **Python** and **Kivy**. Flip cards, find matching pairs, track your time and movements — and compete against a friend in multiplayer mode!
 
