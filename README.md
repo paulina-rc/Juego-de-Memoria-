@@ -1,101 +1,114 @@
-# 🧠 Juego de Memoria
+#Memory Game — Kivy
 
-Este proyecto consiste en el desarrollo de un **juego de memoria interactivo** programado en **Python utilizando la librería Kivy**.
-El objetivo del juego es encontrar pares de cartas iguales mientras se registra el tiempo y los movimientos realizados durante la partida.
-
-El proyecto fue desarrollado como parte de un proceso de aprendizaje en **desarrollo de interfaces gráficas y lógica de programación**, integrando conceptos como manejo de eventos, control del flujo del juego y almacenamiento de datos.
+An interactive **Memory Card Game** built with **Python** and **Kivy**. Flip cards, find matching pairs, track your time and movements — and compete against a friend in multiplayer mode!
 
 ---
 
-# 🎮 Características del juego
+## Gameplay Preview
 
-El juego incluye las siguientes funcionalidades:
-
-* Tablero de cartas con imágenes ocultas.
-* Sistema de **comparación de pares**.
-* Contador de **movimientos realizados**.
-* Temporizador que mide la duración de la partida.
-* **Modo solitario** para jugar individualmente.
-* **Modo multijugador**, donde dos jugadores pueden competir.
-* Sistema de **turnos entre jugadores**.
-* Contador de **puntos por jugador**.
-* Registro del **tiempo de cada partida** en un archivo externo.
-* Visualización del **historial de tiempos guardados**.
+> Two players compete to find the most matching pairs. On every failed attempt, the turn switches. The player with the most pairs at the end wins!
 
 ---
 
-# 👥 Modos de juego
+## ✨ Features
 
-## Modo Solitario
-
-El jugador intenta encontrar todos los pares en el menor tiempo posible.
-
-## Modo Multijugador
-
-Dos jugadores compiten para encontrar la mayor cantidad de pares.
-
-* Si un jugador encuentra un par, **puede jugar nuevamente**.
-* Si falla, **el turno pasa al otro jugador**.
-* Al finalizar el juego se muestra el **ganador**.
-
----
-
-# ⚙️ Tecnologías utilizadas
-
-* **Python**
-* **Kivy** (desarrollo de interfaz gráfica)
-* Manejo de archivos `.txt` para almacenamiento de datos
-* Programación orientada a objetos
+| Feature | Description |
+|---------|-------------|
+| 🃏 Card Board | 4x4 grid with hidden image cards |
+| 🔍 Pair Matching | Automatic comparison when 2 cards are flipped |
+| 👤 Solo Mode | Play alone and beat your own time |
+| 👥 Multiplayer Mode | Two players compete turn by turn |
+| 🏆 Score System | Points tracked per player in real time |
+| ⏱️ Timer | Counts seconds from the first move |
+| 👣 Move Counter | Tracks how many pairs you've flipped |
+| 💾 Time Records | Saves each game result to `tiempos.txt` |
+| 📋 History Viewer | Pop-up showing all saved game times |
 
 ---
 
-# 📂 Estructura del proyecto
+## 🕹️ Game Modes
+
+### Solo Mode
+Play by yourself and try to find all 8 pairs in the shortest time possible. Your time is saved automatically when you finish.
+
+### Multiplayer Mode
+Two players take turns flipping cards:
+- ✅ Find a pair → **keep your turn**
+- ❌ No match → **turn passes to the other player**
+- 🏁 At the end, the player with the most pairs **wins**
+
+---
+
+## ⚙️ Tech Stack
+
+- **Python 3** — Core programming language
+- **Kivy** — Cross-platform GUI framework
+- **OOP** — Object-oriented design with classes and events
+- **File I/O** — `.txt` file for storing game history
+- **Clock & Popups** — Kivy's built-in timer and modal windows
+
+---
+
+## 📂 Project Structure
 
 ```
 Juego-de-Memoria/
 │
-├── img/           # imágenes utilizadas en las cartas
-├── Main.py        # código principal del juego
-├── Tiempos.txt    # archivo donde se guardan los tiempos de las partidas
-└── README.md      # documentación del proyecto
+├── img/
+│   ├── Beso.jpg
+│   ├── Brillo.png
+│   ├── Cereza.png
+│   ├── Corona.png
+│   ├── Diamante.jpg
+│   ├── Estrella.png
+│   ├── Flores.jpg
+│   ├── Mono.png
+│   └── Pregunta.jpg       # Card back image
+│
+├── Main.py                # Main game logic
+├── tiempos.txt            # Auto-generated game history
+└── README.md
 ```
 
 ---
 
-# ▶️ Cómo ejecutar el proyecto
+## ▶️ How to Run
 
-1. Instalar Python.
-2. Instalar la librería Kivy.
+### 1. Make sure Python is installed
 
+```bash
+python --version
 ```
+
+### 2. Install Kivy
+
+```bash
 pip install kivy
 ```
 
-3. Ejecutar el archivo principal.
+### 3. Run the game
 
-```
+```bash
 python Main.py
 ```
 
 ---
 
-# 📌 Funcionalidades implementadas
+## 🧩 How It Works (Technical Overview)
 
-* Interfaz gráfica interactiva.
-* Comparación automática de cartas.
-* Sistema de turnos en multijugador.
-* Registro de resultados.
-* Ventanas emergentes para interacción con el usuario.
+The game is built using a single class `JuegoMemoria` that extends Kivy's `BoxLayout`. Here's a quick breakdown:
 
----
-
-# 📚 Objetivo del proyecto
-
-El objetivo de este proyecto es aplicar conocimientos de programación para desarrollar una **aplicación interactiva con interfaz gráfica**, integrando lógica de juego, manejo de eventos y almacenamiento de información.
+- **`__init__`** — Sets up the board, shuffles images, builds the UI
+- **`elegir_modo`** — Pop-up to choose Solo or Multiplayer
+- **`cambiar_imagen`** — Reveals a card when clicked
+- **`comparar_cartas`** — After 1 second, checks if 2 flipped cards match
+- **`guardar_tiempo`** — Appends the result to `tiempos.txt` with date and time
+- **`ver_tiempos`** — Opens a pop-up showing the full game history
 
 ---
 
-# 👩‍💻 Autor
+## 👩‍💻 Author
 
-Desarrollado por **Paulina RC**.
-Proyecto académico de informática.
+**Paulina Rojas** — [@paulina-rc](https://github.com/paulina-rc)
+
+> Academic project — Computer Science & Web Development, 11th Grade
