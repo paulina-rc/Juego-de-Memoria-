@@ -7,10 +7,8 @@ An interactive **Memory Card Game** built with **Python** and **Kivy**. Flip car
 ## Gameplay Preview
 
 > Two players compete to find the most matching pairs. On every failed attempt, the turn switches. The player with the most pairs at the end wins!
-
 ---
-
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---------|-------------|
